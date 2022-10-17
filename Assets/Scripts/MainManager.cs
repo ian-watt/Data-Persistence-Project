@@ -9,9 +9,11 @@ public class MainManager : MonoBehaviour
     public Brick BrickPrefab;
     public int LineCount = 6;
     public Rigidbody Ball;
+    public Text ScoreText1;
 
     public Text ScoreText;
     public GameObject GameOverText;
+    public GameObject QuitButton;
     
     private bool m_Started = false;
     private int m_Points;
@@ -22,6 +24,7 @@ public class MainManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ScoreText1.text = "High Score: " + GameManager.Instance.highScore + " by " + GameManager.Instance.highScoreName;
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -71,6 +74,15 @@ public class MainManager : MonoBehaviour
     public void GameOver()
     {
         m_GameOver = true;
+        QuitButton.SetActive(true);
         GameOverText.SetActive(true);
+        GameManager.Instance.attemptScore = m_Points;
+        GameManager.Instance.SaveName();
+
+    }
+
+    public void QuitToMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 }
